@@ -6,7 +6,7 @@ import { Post } from "../models/post.model.js";
 
 const createPost = asyncHandler(async (req, res) => {
   const { title, content, slug, status } = req.body;
-  const userId = req.user._id;
+  const authorId = req.user._id;
 
   if ([title, content, slug].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "Title, content, and slug are required");
@@ -33,7 +33,7 @@ const createPost = asyncHandler(async (req, res) => {
     slug,
     featuredImage: featuredImage.url,
     status,
-    author: userId,
+    author: authorId,
   });
 
   return res
