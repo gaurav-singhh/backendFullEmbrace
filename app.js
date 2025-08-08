@@ -8,7 +8,7 @@ const app = express();
 // For production, you should configure a strict whitelist of allowed origins.
 app.use(
   cors({
-    origin: true,
+    origin: "https://frontend-full-embrace.vercel.app",
     credentials: true,
   })
 );
