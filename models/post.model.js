@@ -24,7 +24,7 @@ const postSchema = new Schema(
       enum: ["active", "inactive"],
       default: "active",
     },
-    userId: {
+    author: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },

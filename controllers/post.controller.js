@@ -33,7 +33,7 @@ const createPost = asyncHandler(async (req, res) => {
     slug,
     featuredImage: featuredImage.url,
     status,
-    userId,
+    author: userId,
   });
 
   return res
@@ -43,7 +43,7 @@ const createPost = asyncHandler(async (req, res) => {
 
 const getPost = asyncHandler(async (req, res) => {
   const { id: slug } = req.params;
-  const post = await Post.findOne({ slug }).populate("userId", "fullName");
+  const post = await Post.findOne({ slug }).populate("author", "fullName");
 
   if (!post) {
     throw new ApiError(404, "Post not found");
@@ -51,8 +51,8 @@ const getPost = asyncHandler(async (req, res) => {
 
   // To match frontend's expectation of an 'owner' field
   const postWithOwner = post.toObject();
-  postWithOwner.owner = post.userId;
-  delete postWithOwner.userId;
+  postWithOwner.owner = post.author;
+  delete postWithOwner.author;
 
   return res
     .status(200)
@@ -69,7 +69,7 @@ const updatePost = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Post not found");
   }
 
-  if (post.userId.toString() !== req.user._id.toString()) {
+  if (post.author.toString() !== req.user._id.toString()) {
     throw new ApiError(403, "You are not authorized to update this post");
   }
 
@@ -109,7 +109,7 @@ const deletePost = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Post not found");
   }
 
-  if (post.userId.toString() !== req.user._id.toString()) {
+  if (post.author.toString() !== req.user._id.toString()) {
     throw new ApiError(403, "You are not authorized to delete this post");
   }
 
