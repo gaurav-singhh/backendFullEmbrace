@@ -17,12 +17,12 @@ const createPost = asyncHandler(async (req, res) => {
     throw new ApiError(409, "Post with this slug already exists");
   }
 
-  const featuredImageLocalPath = req.file?.path;
-  if (!featuredImageLocalPath) {
+  const featuredImageFile = req.file;
+  if (!featuredImageFile) {
     throw new ApiError(400, "Featured image is required");
   }
 
-  const featuredImage = await uploadOnCloudinary(featuredImageLocalPath);
+  const featuredImage = await uploadOnCloudinary(featuredImageFile);
   if (!featuredImage) {
     throw new ApiError(500, "Error uploading featured image");
   }
