@@ -8,8 +8,9 @@ const app = express();
 // For production, you should configure a strict whitelist of allowed origins.
 app.use(
   cors({
-    origin: "https://frontend-full-embrace.vercel.app",
-    credentials: true,
+    origin: process.env.CORS_ORIGIN,
+    credentials: true, //This allows the browser to send cookies (and other credentials like authorization headers) with the cross-origin request.
+    // This is required for your login system to work, as the frontend needs to send the access token cookie to the backend.
   })
 );
 
@@ -18,11 +19,9 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-//routes import
 import userRouter from "./routes/user.routes.js";
 import postRouter from "./routes/post.routes.js";
 
-//routes declaration
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/posts", postRouter);
 

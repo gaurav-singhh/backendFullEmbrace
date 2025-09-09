@@ -16,7 +16,7 @@ const postSchema = new Schema(
       required: true,
     },
     featuredImage: {
-      type: String, // Cloudinary URL
+      type: String, 
       required: true,
     },
     status: {
